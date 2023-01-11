@@ -16,8 +16,20 @@ while True:
         except ValueError:
             print("not found!")
     if command == "l":
-        print(names)
-        print(heights)
+        for i in range(0, len(names)):
+            print(names[i] + "\t" + str(heights[i]) + " cm")
+    if command == "min":
+        minimum = heights[0]
+        for height in heights:
+            if height < minimum:
+                minimum = height
+        print(str(minimum) + " cm")
+    if command == "max":
+        maximum = heights[0]
+        for height in heights:
+            if height > maximum:
+                minimum = height
+        print(str(maximum) + " cm")
     if command == "q":
         break
     if command == "?":
