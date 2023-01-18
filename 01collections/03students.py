@@ -1,5 +1,5 @@
-names = []
-heights = []
+names = ["Tomas", "Kuba", "Vojta"]
+heights = [173, 185, 181]
 
 while True:
     command = input("> ")
@@ -12,24 +12,48 @@ while True:
     if command == "d":
         name = input("name: ")
         try:
-            names.remove(name)
+            index = names.index(name)
+            names.pop(index)
+            heights.pop(index)
         except ValueError:
             print("not found!")
+    if command == "f":
+        name = input("name: ")
+        for i in range(0, len(names)):
+            if names[i] == name:
+                print(str(heights[i]) + " cm")
     if command == "l":
         for i in range(0, len(names)):
             print(names[i] + "\t" + str(heights[i]) + " cm")
+    if command == "avg":
+        total = 0
+        for height in heights:
+            total += height
+        average = round(total / len(heights), 1)
+        print(str(average) + " cm")
+    if command == "var":
+        total = 0
+        for height in heights:
+            total += height
+        average = total / len(heights)
+        for height in heights:
+            total += (height - average) ** 2
+        variance = round(total / (len(heights) - 1), 1)
+        print(str(variance))
     if command == "min":
+        name = names[0]
         minimum = heights[0]
-        for height in heights:
-            if height < minimum:
-                minimum = height
-        print(str(minimum) + " cm")
+        for i in range(0, len(names)):
+            if heights[i] < minimum:
+                name = names[i]
+                minimum = heights[i]
+        print(name + " " + str(minimum) + " cm")
     if command == "max":
-        maximum = heights[0]
-        for height in heights:
-            if height > maximum:
-                minimum = height
-        print(str(maximum) + " cm")
+        maximum = 0
+        for i in range(0, len(names)):
+            if heights[i] > heights[maximum]:
+                maximum = i
+        print(names[maximum] + " " + str(heights[maximum]) + " cm")
     if command == "q":
         break
     if command == "?":
