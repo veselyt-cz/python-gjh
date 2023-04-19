@@ -4,6 +4,8 @@ BOARD_SIZE = 20
 SQUARE_SIZE = 30
 SQUARE_COLOR = (255, 255, 255)
 SQUARE_HOVER_COLOR = (225, 225, 225)
+CIRCLE_COLOR = (0, 0, 255)
+CROSS_COLOR = (255, 0, 0)
 
 board = []
 
@@ -14,6 +16,7 @@ for y in range(0, BOARD_SIZE, 1):
     board.append(row)
 
 current = (-1, -1)
+player = 1
 
 window = pygame.display.set_mode(
     (BOARD_SIZE * SQUARE_SIZE, BOARD_SIZE * SQUARE_SIZE)
@@ -39,8 +42,11 @@ def on_mouse_motion(event):
 
 
 def on_mouse_down():
+    global player
     x, y = current
-    board[y][x] = 1
+    if board[y][x] == 0:
+        board[y][x] = player + 1
+        player = (player + 1) % 2
 
 
 def game_update():
@@ -57,7 +63,27 @@ def game_output():
             pygame.draw.rect(window, color,
                              (x * SQUARE_SIZE, y * SQUARE_SIZE,
                               SQUARE_SIZE - 1, SQUARE_SIZE - 1))
+            if board[y][x] == 1:
+                draw_o(x, y)
+            if board[y][x] == 2:
+                draw_x(x, y)
     pygame.display.flip()
+
+
+def draw_o(x, y):
+    pygame.draw.circle(window, CIRCLE_COLOR, (
+        x * SQUARE_SIZE + SQUARE_SIZE // 2,
+        y * SQUARE_SIZE + SQUARE_SIZE // 2
+    ), SQUARE_SIZE // 2 - 4, 4)
+
+
+def draw_x(x, y):
+    pygame.draw.line(window, CROSS_COLOR,
+                     (x * SQUARE_SIZE, y * SQUARE_SIZE),
+                     ((x + 1) * SQUARE_SIZE, (y + 1) * SQUARE_SIZE), 4)
+    pygame.draw.line(window, CROSS_COLOR,
+                     (x * SQUARE_SIZE, (y + 1) * SQUARE_SIZE),
+                     ((x + 1) * SQUARE_SIZE, y * SQUARE_SIZE), 4)
 
 
 while True:
